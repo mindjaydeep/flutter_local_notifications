@@ -228,6 +228,7 @@ class AndroidFlutterLocalNotificationsPlugin
     AndroidNotificationDetails notificationDetails,
     String payload,
     bool androidAllowWhileIdle = false,
+    int startTime
   }) async {
     validateId(id);
     final Map<String, Object> serializedPlatformSpecifics =
@@ -237,7 +238,7 @@ class AndroidFlutterLocalNotificationsPlugin
       'id': id,
       'title': title,
       'body': body,
-      'calledAt': DateTime.now().millisecondsSinceEpoch,
+      'calledAt': startTime ?? DateTime.now().millisecondsSinceEpoch,
       'repeatInterval': repeatInterval.index,
       'platformSpecifics': serializedPlatformSpecifics,
       'payload': payload ?? '',
@@ -503,13 +504,14 @@ class IOSFlutterLocalNotificationsPlugin
     RepeatInterval repeatInterval, {
     IOSNotificationDetails notificationDetails,
     String payload,
+    int startTime
   }) async {
     validateId(id);
     await _channel.invokeMethod('periodicallyShow', <String, Object>{
       'id': id,
       'title': title,
       'body': body,
-      'calledAt': DateTime.now().millisecondsSinceEpoch,
+      'calledAt': startTime ?? DateTime.now().millisecondsSinceEpoch,
       'repeatInterval': repeatInterval.index,
       'platformSpecifics': notificationDetails?.toMap(),
       'payload': payload ?? ''
@@ -638,13 +640,14 @@ class MacOSFlutterLocalNotificationsPlugin
     RepeatInterval repeatInterval, {
     MacOSNotificationDetails notificationDetails,
     String payload,
+    int startTime
   }) async {
     validateId(id);
     await _channel.invokeMethod('periodicallyShow', <String, Object>{
       'id': id,
       'title': title,
       'body': body,
-      'calledAt': DateTime.now().millisecondsSinceEpoch,
+      'calledAt': startTime ?? DateTime.now().millisecondsSinceEpoch,
       'repeatInterval': repeatInterval.index,
       'platformSpecifics': notificationDetails?.toMap(),
       'payload': payload ?? ''
